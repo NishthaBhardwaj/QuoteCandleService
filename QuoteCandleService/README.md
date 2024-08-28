@@ -16,7 +16,7 @@
 4. **Window Processing:**
    - Quotes are processed in 1-minute intervals. The candlestick data for each interval is finalized and stored once the window is closed. Data becomes available to users immediately after processing.
   
-### Processing and Grouping Quotes by ISIN in 1-Minute Windows
+#### How Processing and Grouping Quotes by ISIN in 1-Minute Windows Works
 
 The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
 
