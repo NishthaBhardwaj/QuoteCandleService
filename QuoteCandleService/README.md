@@ -3,15 +3,15 @@
 
 ## Assumptions & Solution Overview
 
-1. **In-Memory Storage Limitation:**
-   - Only the last 30 one-minute candlestick windows are stored in memory for each ISIN. As new windows are processed, the oldest windows are discarded to maintain a fixed size of 30 windows.
+1. **In-Memory Storage:**
+   - For each ISIN, only the recent 30 one-minute candlestick windows are preserved in memory for saving space, this is by design. As the 30 minute time window moves forward, the older windows are discarded to maintain a fixed size of 30 windows. This is managed on FIFO basis.
 
 2. **Carry-Forward Mechanism:**
-   - If an ISIN is present in one window but missing in the subsequent windows, its candlestick data is carried forward into those windows until it reappears or until the 30-window limit is reached.
+   - In a 30 minute rolling window, if an ISIN is present in a one-minute window but missing in subsequent one-minute windows, its candlestick data is carried forward into those windows until it reappears or until the 30-window limit is reached.
    - The carry-forward mechanism only applies in a forward direction. Candlestick data will not be propagated backward to previous windows.
 
-3. **Delayed Availability of Complete Data:**
-   - If an ISIN appears for the first time in a later window (e.g., the 10th minute), only windows from the 10th minute onward will have candlestick data for that ISIN. It will take an additional 20 minutes to accumulate 30 minutes of complete data for that ISIN.
+3. **Non Availability of Complete Data:**
+   - If an ISIN values appear for the first time in a 30 minute rolling window (e.g., the 10th minute), only windows from the 10th minute onward will have candlestick data populated for that ISIN. There won't be any backfill for missing values.
 
 4. **Window Processing:**
    - Quotes are processed in 1-minute intervals. The candlestick data for each interval is finalized and stored once the window is closed. Data becomes available to users immediately after processing.
