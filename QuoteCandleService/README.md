@@ -9,7 +9,7 @@ The system stores candlestick data for a rolling 30-minute window in memory. Whe
 #### Delayed Visibility of New ISINs: 
 If an ISIN appears for the first time in the 10th window, only the most recent 21 windows will be displayed. You will need to wait for 9 more minutes to see the complete 30-minute window for this ISIN.
 
-Processing Quote Data Stream
+#### Processing Quote Data Stream
 The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
 
 Example of Grouping Quotes by ISIN within a 1-Minute Window:
