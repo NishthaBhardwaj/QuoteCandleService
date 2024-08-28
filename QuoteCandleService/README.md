@@ -1,18 +1,7 @@
 # Quote Candlesticks Service
 
-## Assumptions
 
-## Solution Overview
-#### In-Memory Window Management: 
-The system stores candlestick data for a rolling 30-minute window in memory. When a new 31st window's data arrives, the oldest (first) window's data is removed from the storage, and the 31st window's data is added. If an ISIN appears in the first window and does not appear in subsequent windows, the previous window's candlestick data will be copied to the current window and so forth.
-
-#### Delayed Visibility of New ISINs: 
-If an ISIN appears for the first time in the 10th window, only the most recent 21 windows will be displayed. You will need to wait for 9 more minutes to see the complete 30-minute window for this ISIN.
-
-#### Processing Quote Data Stream
-The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
-
-## Assumptions
+## Assumptions & Solution Overview
 
 1. **In-Memory Storage Limitation:**
    - Only the last 30 one-minute candlestick windows are stored in memory for each ISIN. As new windows are processed, the oldest windows are discarded to maintain a fixed size of 30 windows.
@@ -26,6 +15,10 @@ The application continuously reads quotes from a live quote stream. These quotes
 
 4. **Window Processing:**
    - Quotes are processed in 1-minute intervals. The candlestick data for each interval is finalized and stored once the window is closed. Data becomes available to users immediately after processing.
+  
+## Processing and Grouping Quotes by ISIN in 1-Minute Windows
+
+The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
 
 
 Example of Grouping Quotes by ISIN within a 1-Minute Window:
