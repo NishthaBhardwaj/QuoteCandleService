@@ -1,12 +1,60 @@
 # Quote Candlesticks Service
 
 ## Assumptions
+
+## Solution Overview
 #### In-Memory Window Management: 
 The system stores candlestick data for a rolling 30-minute window in memory. When a new 31st window's data arrives, the oldest (first) window's data is removed from the storage, and the 31st window's data is added. If an ISIN appears in the first window and does not appear in subsequent windows, the previous window's candlestick data will be copied to the current window and so forth.
 
 #### Delayed Visibility of New ISINs: 
 If an ISIN appears for the first time in the 10th window, only the most recent 21 windows will be displayed. You will need to wait for 9 more minutes to see the complete 30-minute window for this ISIN.
 ### Building and deploying the application
+
+Processing Quote Data Stream
+The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
+
+Example of Grouping Quotes by ISIN within a 1-Minute Window:
+DT4504734175 = [
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1520.0769], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1554.3462], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1549.6154], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1522.8846], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1547.1538], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1558.4231], type=QUOTE],
+  QuoteEvent[data=Quote[isin=DT4504734175, price=1530.6923], type=QUOTE]
+]
+
+MP784T366845 = [
+  QuoteEvent[data=Quote[isin=MP784T366845, price=889.2943], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=897.4415], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=905.5886], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=896.7358], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=914.8829], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=890.0301], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=912.1773], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=891.3244], type=QUOTE],
+  QuoteEvent[data=Quote[isin=MP784T366845, price=916.4716], type=QUOTE]
+]
+Processing to Generate Candlestick Data:
+After grouping the quotes by ISIN, they are passed downstream to process and generate the candlestick data. The candlestick data is calculated as follows:
+
+{
+  "openTimestamp": "2024-08-29T00:13:00",
+  "openPrice": 1520.0769,
+  "highPrice": 1558.4231,
+  "lowPrice": 1520.0769,
+  "closePrice": 1530.6923,
+  "closeTimestamp": "2024-08-29T00:14:00"
+}
+{
+  "openTimestamp": "2024-08-29T00:13:00",
+  "openPrice": 889.2943,
+  "highPrice": 916.4716,
+  "lowPrice": 889.2943,
+  "closePrice": 916.4716,
+  "closeTimestamp": "2024-08-29T00:14:00"
+}
+
 
 ### Building the application
 
