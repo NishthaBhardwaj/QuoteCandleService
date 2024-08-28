@@ -13,8 +13,8 @@ If an ISIN appears for the first time in the 10th window, only the most recent 2
 The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
 
 Example of Grouping Quotes by ISIN within a 1-Minute Window:
-DT4504734175 = [
-  QuoteEvent[data=Quote[isin=DT4504734175, price=1520.0769], type=QUOTE],
+
+DT4504734175 = [  QuoteEvent[data=Quote[isin=DT4504734175, price=1520.0769], type=QUOTE],
   QuoteEvent[data=Quote[isin=DT4504734175, price=1554.3462], type=QUOTE],
   QuoteEvent[data=Quote[isin=DT4504734175, price=1549.6154], type=QUOTE],
   QuoteEvent[data=Quote[isin=DT4504734175, price=1522.8846], type=QUOTE],
@@ -23,8 +23,7 @@ DT4504734175 = [
   QuoteEvent[data=Quote[isin=DT4504734175, price=1530.6923], type=QUOTE]
 ]
 
-MP784T366845 = [
-  QuoteEvent[data=Quote[isin=MP784T366845, price=889.2943], type=QUOTE],
+MP784T366845 = [  QuoteEvent[data=Quote[isin=MP784T366845, price=889.2943], type=QUOTE],
   QuoteEvent[data=Quote[isin=MP784T366845, price=897.4415], type=QUOTE],
   QuoteEvent[data=Quote[isin=MP784T366845, price=905.5886], type=QUOTE],
   QuoteEvent[data=Quote[isin=MP784T366845, price=896.7358], type=QUOTE],
@@ -34,6 +33,7 @@ MP784T366845 = [
   QuoteEvent[data=Quote[isin=MP784T366845, price=891.3244], type=QUOTE],
   QuoteEvent[data=Quote[isin=MP784T366845, price=916.4716], type=QUOTE]
 ]
+
 #### Processing to Generate Candlestick Data
 After grouping the quotes by ISIN, they are passed downstream to process and generate the candlestick data. The candlestick data is calculated as follows:
 
