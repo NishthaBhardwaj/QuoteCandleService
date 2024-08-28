@@ -41,7 +41,7 @@ To skip the setup and build process, follow these steps:
    ```
    
    ```bash
-     cd docker
+   cd docker
    ```
 3. **Start the services:**
    Run the following command to start the Partner app and the Quote service using Docker Compose.
