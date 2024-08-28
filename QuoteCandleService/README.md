@@ -12,6 +12,22 @@ If an ISIN appears for the first time in the 10th window, only the most recent 2
 #### Processing Quote Data Stream
 The application continuously reads quotes from a live quote stream. These quotes are grouped into 1-minute windows and further organized by ISIN. After grouping, the quotes within each ISIN for the 1-minute window are processed to generate candlestick data.
 
+## Assumptions
+
+1. **In-Memory Storage Limitation:**
+   - Only the last 30 one-minute candlestick windows are stored in memory for each ISIN. As new windows are processed, the oldest windows are discarded to maintain a fixed size of 30 windows.
+
+2. **Carry-Forward Mechanism:**
+   - If an ISIN is present in one window but missing in the subsequent windows, its candlestick data is carried forward into those windows until it reappears or until the 30-window limit is reached.
+   - The carry-forward mechanism only applies in a forward direction. Candlestick data will not be propagated backward to previous windows.
+
+3. **Delayed Availability of Complete Data:**
+   - If an ISIN appears for the first time in a later window (e.g., the 10th minute), only windows from the 10th minute onward will have candlestick data for that ISIN. It will take an additional 20 minutes to accumulate 30 minutes of complete data for that ISIN.
+
+4. **Window Processing:**
+   - Quotes are processed in 1-minute intervals. The candlestick data for each interval is finalized and stored once the window is closed. Data becomes available to users immediately after processing.
+
+
 Example of Grouping Quotes by ISIN within a 1-Minute Window:
 
 DT4504734175 = [  QuoteEvent[data=Quote[isin=DT4504734175, price=1520.0769], type=QUOTE],
