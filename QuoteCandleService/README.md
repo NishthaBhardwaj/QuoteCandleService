@@ -34,7 +34,7 @@ MP784T366845 = [
   QuoteEvent[data=Quote[isin=MP784T366845, price=891.3244], type=QUOTE],
   QuoteEvent[data=Quote[isin=MP784T366845, price=916.4716], type=QUOTE]
 ]
-Processing to Generate Candlestick Data:
+**Processing to Generate Candlestick Data:**
 After grouping the quotes by ISIN, they are passed downstream to process and generate the candlestick data. The candlestick data is calculated as follows:
 
 {
