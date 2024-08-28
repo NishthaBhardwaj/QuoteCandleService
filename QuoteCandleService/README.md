@@ -45,6 +45,7 @@ After grouping the quotes by ISIN, they are passed downstream to process and gen
   "closePrice": 1530.6923,
   "closeTimestamp": "2024-08-29T00:14:00"
 }
+
 {
   "openTimestamp": "2024-08-29T00:13:00",
   "openPrice": 889.2943,
