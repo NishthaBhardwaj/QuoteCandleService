@@ -1,0 +1,24 @@
+version: "2.4"
+services:
+  partner-service:
+    image: openjdk:17
+    volumes:
+      - ../partner-jar/partner-service-1.0.1-all.jar:/app/partner-service-1.0.1-all.jar
+    command: bash -c "cd  /app && java -jar partner-service-1.0.1-all.jar --port=8032"
+    ports:
+      - 8032:8032
+
+  quote-candle-service:
+    image: openjdk:17
+    depends_on:
+      - partner-service
+    build:
+      context: .
+    volumes:
+      - ../build/libs/QuoteCandleService-0.0.1-SNAPSHOT.jar:/app/QuoteCandleService-0.0.1-SNAPSHOT.jar
+    command: bash -c "cd /app && java -jar QuoteCandleService-0.0.1-SNAPSHOT.jar --port=9990"
+    container_name: quote-candle-service
+    ports:
+      - 9990:9990
+    environment:
+      - WEBSOCKET.QUOTES_URL=ws://partner-service:8032/quotes
